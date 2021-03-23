@@ -86,6 +86,7 @@
     "prop-types": "^15.7.2"
   },
   "dependencies": {
+    "@jswork/next-deep-clone": "^1.0.0",
     "@jswork/next-tree-search": "^1.0.0",
     "@jswork/noop": "^1.0.0",
     "@jswork/react-ant-tree": "^1.0.1",

@@ -1,10 +1,10 @@
 import noop from '@jswork/noop';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactAntTree from '@jswork/react-ant-tree';
 import NxTreeSearch from '@jswork/next-tree-search';
 import nxTraverse from '@jswork/next-traverse';
+import nxDeepClone from '@jswork/next-deep-clone';
 
 const CLASS_NAME = 'react-ant-draggable-tree';
 /* prettier-ignore */
@@ -46,14 +46,13 @@ export default class ReactAntDraggableTree extends Component {
   constructor(inProps) {
     super(inProps);
     this.state = {
-      items: inProps.items
+      items: nxDeepClone(inProps.items)
     };
   }
 
-  shouldComponentUpdate(inProps, inState) {
-    const { items } = inState;
-    if (items !== this.state.items) {
-      this.setState({ items });
+  shouldComponentUpdate(inProps) {
+    if (inProps.items !== this.props.items) {
+      this.setState({ items: inProps.items });
     }
     return true;
   }
@@ -72,7 +71,10 @@ export default class ReactAntDraggableTree extends Component {
     const dragKey = inEvent.dragNode.props.eventKey;
     const dropKey = inEvent.node.props.eventKey;
     const pos = inEvent.node.props.pos.split('-');
-    const dragObj = NxTreeSearch.find( data, (_, item) => item[uniqKey] === dragKey );
+    const dragObj = NxTreeSearch.find(
+      data,
+      (_, item) => item[uniqKey] === dragKey
+    );
     const dropPosition = inEvent.dropPosition - Number(pos[pos.length - 1]);
     const loop = (inData, inKey, inCallback) => {
       inData.forEach((item, index, inArray) => {
