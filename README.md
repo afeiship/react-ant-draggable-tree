@@ -16,7 +16,7 @@ npm install -S @jswork/react-ant-draggable-tree
 | ------------ | ------ | -------- | ---------------------- | ------------------------------------- |
 | className    | string | false    | -                      | The extended className for component. |
 | items        | array  | false    | []                     | The data source for tree.             |
-| key          | string | false    | 'value'                | The unique id key.                    |
+| uniqKey      | string | false    | 'value'                | The unique id key.                    |
 | onChange     | func   | false    | noop                   | The change handler.                   |
 | dropValidate | func   | false    | () => { return true; } | When drag and drop validation passed. |
 

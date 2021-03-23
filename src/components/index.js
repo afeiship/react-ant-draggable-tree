@@ -25,7 +25,7 @@ export default class ReactAntDraggableTree extends Component {
     /**
      * The unique id key.
      */
-    key: PropTypes.string,
+    uniqKey: PropTypes.string,
     /**
      * The change handler.
      */
@@ -37,7 +37,7 @@ export default class ReactAntDraggableTree extends Component {
   };
 
   static defaultProps = {
-    key: 'value',
+    uniqKey: 'value',
     items: [],
     dropValidate: RETURN_TRUE,
     onChange: noop
@@ -60,9 +60,9 @@ export default class ReactAntDraggableTree extends Component {
 
   handleDragStart = (inEvent) => {
     const { items } = this.state;
-    const { key } = this.props;
-    const id = inEvent.node.props[key];
-    this.dragNode = NxTreeSearch.find(items, (_, item) => item[key] === id);
+    const { uniqKey } = this.props;
+    const id = inEvent.node.props[uniqKey];
+    this.dragNode = NxTreeSearch.find(items, (_, item) => item[uniqKey] === id);
   };
 
   handleDrop = (inEvent) => {
@@ -74,7 +74,7 @@ export default class ReactAntDraggableTree extends Component {
   };
 
   move = (inEvent, data) => {
-    const { key, onChange } = this.props;
+    const { uniqKey, onChange } = this.props;
     const isInNode = !inEvent.dropToGap;
     const dropKey = inEvent.node.props.eventKey;
     const pos = inEvent.node.props.pos.split('-');
@@ -82,7 +82,7 @@ export default class ReactAntDraggableTree extends Component {
     const dropPosition = inEvent.dropPosition - Number(pos[pos.length - 1]);
     const loop = (inData, inKey, inCallback) => {
       inData.forEach((item, index, inArray) => {
-        if (item[key] === inKey) {
+        if (item[uniqKey] === inKey) {
           return inCallback(item, index, inArray);
         }
         if (item.children) {
@@ -91,13 +91,13 @@ export default class ReactAntDraggableTree extends Component {
       });
     };
 
-    loop(data, dragObj[key], (_, index, arr) => {
+    loop(data, dragObj[uniqKey], (_, index, arr) => {
       arr.splice(index, 1);
     });
 
     if (isInNode) {
       nxTraverse(data, (_, value) => {
-        if (value[key] === dropKey) {
+        if (value[uniqKey] === dropKey) {
           value.children = value.children || [];
           value.children.push(dragObj);
         }
@@ -119,7 +119,15 @@ export default class ReactAntDraggableTree extends Component {
   };
 
   render() {
-    const { className, items, ...props } = this.props;
+    const {
+      className,
+      items,
+      uniqKey,
+      dropValidate,
+      onChange,
+      ...props
+    } = this.props;
+
     return (
       <ReactAntTree
         draggable
