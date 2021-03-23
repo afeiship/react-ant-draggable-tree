@@ -58,13 +58,6 @@ export default class ReactAntDraggableTree extends Component {
     return true;
   }
 
-  handleDragStart = (inEvent) => {
-    const { items } = this.state;
-    const { uniqKey } = this.props;
-    const id = inEvent.node.props[uniqKey];
-    this.dragNode = NxTreeSearch.find(items, (_, item) => item[uniqKey] === id);
-  };
-
   handleDrop = (inEvent) => {
     const { dropValidate } = this.props;
     const sliced = [...this.state.items];
@@ -76,9 +69,10 @@ export default class ReactAntDraggableTree extends Component {
   move = (inEvent, data) => {
     const { uniqKey, onChange } = this.props;
     const isInNode = !inEvent.dropToGap;
+    const dragKey = inEvent.dragNode.props.eventKey;
     const dropKey = inEvent.node.props.eventKey;
     const pos = inEvent.node.props.pos.split('-');
-    const dragObj = this.dragNode;
+    const dragObj = NxTreeSearch.find( data, (_, item) => item[uniqKey] === dragKey );
     const dropPosition = inEvent.dropPosition - Number(pos[pos.length - 1]);
     const loop = (inData, inKey, inCallback) => {
       inData.forEach((item, index, inArray) => {
@@ -131,7 +125,6 @@ export default class ReactAntDraggableTree extends Component {
     return (
       <ReactAntTree
         draggable
-        onDragStart={this.handleDragStart}
         onDrop={this.handleDrop}
         items={this.state.items}
         {...props}
