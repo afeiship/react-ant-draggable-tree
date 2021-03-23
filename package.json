@@ -19,7 +19,16 @@
     "type": "git",
     "url": "git+https://github.com/afeiship/react-ant-draggable-tree.git"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "ant",
+    "draggable",
+    "tree",
+    "list",
+    "drag",
+    "drop",
+    "sortable"
+  ],
   "author": "afei",
   "license": "MIT",
   "browserslist": {
