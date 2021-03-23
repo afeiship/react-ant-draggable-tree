@@ -74,19 +74,19 @@ export default class ReactAntDraggableTree extends Component {
   };
 
   move = (inEvent, data) => {
-    const { key } = this.props;
+    const { key, onChange } = this.props;
     const isInNode = !inEvent.dropToGap;
     const dropKey = inEvent.node.props.eventKey;
     const pos = inEvent.node.props.pos.split('-');
     const dragObj = this.dragNode;
     const dropPosition = inEvent.dropPosition - Number(pos[pos.length - 1]);
-    const loop = (data, key, callback) => {
-      data.forEach((item, index, arr) => {
-        if (item[key] === key) {
-          return callback(item, index, arr);
+    const loop = (inData, inKey, inCallback) => {
+      inData.forEach((item, index, inArray) => {
+        if (item[key] === inKey) {
+          return inCallback(item, index, inArray);
         }
         if (item.children) {
-          return loop(item.children, key, callback);
+          return loop(item.children, inKey, inCallback);
         }
       });
     };

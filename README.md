@@ -49,6 +49,9 @@ npm install -S @jswork/react-ant-draggable-tree
           <ReactAntDraggableTree
             items={require('./assets/tree.json')}
             className="mb-5 has-text-white"
+            onChange={(e) => {
+              console.log('event onChange:', e.target.value);
+            }}
           />
         </ReactDemokit>
       );
